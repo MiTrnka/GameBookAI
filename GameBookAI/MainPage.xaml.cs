@@ -11,14 +11,14 @@ public partial class MainPage : ContentPage
     {
         var endpoint = new Uri("https://trnko-mk84yeeu-eastus2.cognitiveservices.azure.com/");
         var deploymentName = "gpt-5.2-chat";
-        var apiKey = "";
+        var apiKey = "dfd";
 
         var systemPrompt =
             "Jsi vypravěč interaktivního fantasy příběhu. " +
             "Vyprávěj příběh po částech. " +
             "Na konci každé části vždy vypiš přesně 4 možnosti A), B), C), D). " +
             "Neuváděj žádný jiný text mimo příběh a možnosti. " +
-            "Hráč odpovídá pouze textem „Vybírám možnost X“.";
+            "Hráč odpovídá pouze textem „Vybírám možnost X“."; 
 
         var gameContext = new GameContext(
          systemPrompt,
