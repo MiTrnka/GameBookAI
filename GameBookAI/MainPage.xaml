@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GameBookAI.MainPage">
+
+    <ScrollView>
+        <Grid
+            Padding="20"
+            RowSpacing="15"
+            ColumnSpacing="15"
+            RowDefinitions="Auto,*,*,*,*,*"
+            ColumnDefinitions="*,*">
+
+            <Label
+            Text="Vyber si hru"
+            FontSize="24"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Grid.Row="0"
+            Grid.ColumnSpan="2" />
+
+            <!-- Řádek 2 -->
+            <Button Text="Hra 1" Grid.Row="1" Grid.Column="0" Clicked="ButtonHra1_Clicked"/>
+            <Button Text="Hra 2" Grid.Row="1" Grid.Column="1" Clicked="ButtonHra2_Clicked"/>
+
+            <!-- Řádek 3 -->
+            <Button Text="Hra 3" Grid.Row="2" Grid.Column="0" Clicked="ButtonHra3_Clicked"/>
+            <Button Text="Hra 4" Grid.Row="2" Grid.Column="1" Clicked="ButtonHra4_Clicked"/>
+
+            <!-- Řádek 4 -->
+            <Button Text="Hra 5" Grid.Row="3" Grid.Column="0" Clicked="ButtonHra5_Clicked"/>
+            <Button Text="Hra 6" Grid.Row="3" Grid.Column="1" Clicked="ButtonHra6_Clicked"/>
+
+            <!-- Řádek 5 -->
+            <Button Text="Hra 7" Grid.Row="4" Grid.Column="0" Clicked="ButtonHra7_Clicked"/>
+            <Button Text="Hra 8" Grid.Row="4" Grid.Column="1" Clicked="ButtonHra8_Clicked"/>
+
+            <!-- Řádek 6 -->
+            <Button Text="Hra 9" Grid.Row="5" Grid.Column="0" Clicked="ButtonHra9_Clicked"/>
+            <Button Text="Hra 10" Grid.Row="5" Grid.Column="1" Clicked="ButtonHra10_Clicked"/>
+
+        </Grid>        
+    </ScrollView>
+
+</ContentPage>

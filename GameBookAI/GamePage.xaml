@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="GameBookAI.GamePage"
+    Title="Hra">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Zpět"
+            Clicked="OnBackClicked" />
+    </ContentPage.ToolbarItems>
+
+    <Grid
+        Padding="20"
+        RowDefinitions="*,Auto"
+        RowSpacing="20">
+
+        <ScrollView Grid.Row="0">
+            <Label
+                x:Name="StoryLabel"
+                FontSize="16"
+                LineBreakMode="WordWrap" />
+        </ScrollView>
+
+        <Grid
+            x:Name="ChoicesGrid"
+            Grid.Row="1"
+            ColumnDefinitions="*,*"
+            RowDefinitions="Auto,Auto"
+            ColumnSpacing="15"
+            RowSpacing="15">
+
+            <Button Text="A" Clicked="OnChoiceA"/>
+            <Button Text="B" Grid.Column="1" Clicked="OnChoiceB"/>
+            <Button Text="C" Grid.Row="1" Clicked="OnChoiceC"/>
+            <Button Text="D" Grid.Row="1" Grid.Column="1" Clicked="OnChoiceD"/>
+
+        </Grid>
+
+        <ActivityIndicator
+            x:Name="LoadingIndicator"
+            Grid.RowSpan="2"
+            IsRunning="False"
+            IsVisible="False"
+            Color="{StaticResource Primary}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            HeightRequest="50"
+            WidthRequest="50" />
+    </Grid>
+
+</ContentPage>
