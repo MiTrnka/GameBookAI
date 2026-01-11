@@ -1,4 +1,5 @@
 using Microsoft.Maui.Controls;
+using System.Threading.Tasks;
 
 namespace GameBookAI;
 
@@ -16,7 +17,7 @@ public partial class GamePage : ContentPage
         set
         {
             _gameContext = value;
-            // Spuštìní hry (fire-and-forget, protože setter nemùže být async)
+            // Spuštìní hry
             StartGame();
         }
     }
@@ -30,18 +31,21 @@ public partial class GamePage : ContentPage
 
     /// <summary>
     /// Spustí hru a naète úvodní text pøíbìhu.
+    /// Pokud se naètení nepovede a uživatel to vzdá, vrátí se zpìt.
     /// </summary>
     private async void StartGame()
     {
-        // Nastavení stavu naèítání (zablokování vstupù, zobrazení indikátoru)
-        SetLoadingState(true);
+        // Spustíme akci pro zaèátek hry s možností opakování pøi chybì
+        bool success = await ExecuteWithRetryAsync(async () =>
+        {
+            return await _gameContext.StartGameAsync();
+        });
 
-        // Asynchronní získání úvodu od AI
-        var story = await _gameContext.StartGameAsync();
-        StoryLabel.Text = story;
-
-        // Obnovení UI
-        SetLoadingState(false);
+        // Pokud se nepodaøilo hru nastartovat (uživatel dal Zrušit), vrátíme se do menu
+        if (!success)
+        {
+            await Shell.Current.GoToAsync("..");
+        }
     }
 
     /// <summary>
@@ -49,15 +53,58 @@ public partial class GamePage : ContentPage
     /// </summary>
     private async Task Continue(char choice)
     {
-        // Nastavení stavu naèítání
-        SetLoadingState(true);
+        // Spustíme akci pro pokraèování hry
+        await ExecuteWithRetryAsync(async () =>
+        {
+            return await _gameContext.ContinueGameAsync(choice);
+        });
+    }
 
-        // Asynchronní získání pokraèování pøíbìhu
-        var story = await _gameContext.ContinueGameAsync(choice);
-        StoryLabel.Text = story;
+    /// <summary>
+    /// Univerzální metoda pro volání asynchronních herních akcí s ošetøením chyb a možností opakování.
+    /// </summary>
+    /// <param name="action">Funkce vracející text pøíbìhu (napø. volání AI).</param>
+    /// <returns>True pokud akce probìhla úspìšnì, False pokud byla zrušena uživatelem.</returns>
+    private async Task<bool> ExecuteWithRetryAsync(Func<Task<string>> action)
+    {
+        while (true)
+        {
+            // Zablokování UI a zobrazení indikátoru
+            SetLoadingState(true);
 
-        // Obnovení UI
-        SetLoadingState(false);
+            try
+            {
+                // Pokus o provedení akce
+                string storyText = await action();
+
+                // Úspìch - zobrazíme text
+                StoryLabel.Text = storyText;
+
+                // Odemkneme UI a vracíme úspìch
+                SetLoadingState(false);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Pøi chybì musíme odblokovat UI, aby šlo kliknout na Alert
+                SetLoadingState(false);
+
+                // Zobrazení dotazu uživateli pomocí moderního API
+                bool retry = await DisplayAlertAsync(
+                    "Chyba pøipojení",
+                    $"Nepodaøilo se komunikovat s AI.\n{ex.Message}",
+                    "Zkusit znovu",
+                    "Zrušit");
+
+                // Pokud uživatel nechce opakovat, konèíme s neúspìchem
+                if (!retry)
+                {
+                    return false;
+                }
+
+                // Pokud chce opakovat, cyklus while jede znovu od zaèátku
+            }
+        }
     }
 
     /// <summary>
@@ -65,11 +112,8 @@ public partial class GamePage : ContentPage
     /// </summary>
     private void SetLoadingState(bool isLoading)
     {
-        // Zobrazí/skryje toèící se koleèko
         LoadingIndicator.IsVisible = isLoading;
         LoadingIndicator.IsRunning = isLoading;
-
-        // Zakáže/povolí klikání na tlaèítka voleb
         ChoicesGrid.IsEnabled = !isLoading;
     }
 
@@ -78,7 +122,6 @@ public partial class GamePage : ContentPage
         await Shell.Current.GoToAsync("..");
     }
 
-    // Handlery tlaèítek - volají asynchronní metodu Continue
     private async void OnChoiceA(object sender, EventArgs e) => await Continue('A');
     private async void OnChoiceB(object sender, EventArgs e) => await Continue('B');
     private async void OnChoiceC(object sender, EventArgs e) => await Continue('C');

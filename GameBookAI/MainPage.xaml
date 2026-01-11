@@ -20,24 +20,24 @@
             Grid.ColumnSpan="2" />
 
             <!-- Řádek 2 -->
-            <Button Text="Hra 1" Grid.Row="1" Grid.Column="0" Clicked="ButtonHra1_Clicked"/>
-            <Button Text="Hra 2" Grid.Row="1" Grid.Column="1" Clicked="ButtonHra2_Clicked"/>
+            <Button Text="Tajuplný Tobiáš" Grid.Row="1" Grid.Column="0" Clicked="ButtonHra1_Clicked"/>
+            <Button Text="Rekonstrukce Nejdku" Grid.Row="1" Grid.Column="1" Clicked="ButtonHra2_Clicked"/>
 
             <!-- Řádek 3 -->
-            <Button Text="Hra 3" Grid.Row="2" Grid.Column="0" Clicked="ButtonHra3_Clicked"/>
-            <Button Text="Hra 4" Grid.Row="2" Grid.Column="1" Clicked="ButtonHra4_Clicked"/>
+            <Button Text="Nastupuji do Bradavic" Grid.Row="2" Grid.Column="0" Clicked="ButtonHra3_Clicked"/>
+            <Button Text="Dobrodruh z království Eldoria" Grid.Row="2" Grid.Column="1" Clicked="ButtonHra4_Clicked"/>
 
             <!-- Řádek 4 -->
-            <Button Text="Hra 5" Grid.Row="3" Grid.Column="0" Clicked="ButtonHra5_Clicked"/>
-            <Button Text="Hra 6" Grid.Row="3" Grid.Column="1" Clicked="ButtonHra6_Clicked"/>
+            <Button Text="Kvíz Harry Potter" Grid.Row="3" Grid.Column="0" Clicked="ButtonHra5_Clicked"/>
+            <Button Text="Kvíz hlavní města" Grid.Row="3" Grid.Column="1" Clicked="ButtonHra6_Clicked"/>
 
             <!-- Řádek 5 -->
-            <Button Text="Hra 7" Grid.Row="4" Grid.Column="0" Clicked="ButtonHra7_Clicked"/>
-            <Button Text="Hra 8" Grid.Row="4" Grid.Column="1" Clicked="ButtonHra8_Clicked"/>
+            <Button Text="Kvíz o správném zacházení s miminkem" Grid.Row="4" Grid.Column="0" Clicked="ButtonHra7_Clicked"/>
+            <Button Text="Kvíz ze Stmívání" Grid.Row="4" Grid.Column="1" Clicked="ButtonHra8_Clicked"/>
 
             <!-- Řádek 6 -->
-            <Button Text="Hra 9" Grid.Row="5" Grid.Column="0" Clicked="ButtonHra9_Clicked"/>
-            <Button Text="Hra 10" Grid.Row="5" Grid.Column="1" Clicked="ButtonHra10_Clicked"/>
+            <Button Text="Kvíz znalostí Bible" Grid.Row="5" Grid.Column="0" Clicked="ButtonHra9_Clicked"/>
+            <Button Text="Kvíz - různé" Grid.Row="5" Grid.Column="1" Clicked="ButtonHra10_Clicked"/>
 
         </Grid>        
     </ScrollView>
