@@ -17,10 +17,12 @@
         RowSpacing="20">
 
         <ScrollView Grid.Row="0">
-            <Label
-                x:Name="StoryLabel"
-                FontSize="16"
-                LineBreakMode="WordWrap" />
+            <VerticalStackLayout>
+                <Label
+                    x:Name="StoryLabel"
+                    FontSize="16"
+                    LineBreakMode="WordWrap" />
+            </VerticalStackLayout>
         </ScrollView>
 
         <Grid
