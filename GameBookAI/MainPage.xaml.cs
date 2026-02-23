@@ -11,7 +11,7 @@ public partial class MainPage : ContentPage
     // P O Z O R - N E P O S I L A T  N A  G I T H U B
     private Uri endpoint = new Uri("https://gamebookchatgpt.openai.azure.com/");
     private string deploymentName = "gpt-4.1-mini";
-    private string apiKey = " ";
+    private string apiKey = "";
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     private async void HratPribeh(string popisHry)
@@ -32,7 +32,7 @@ public partial class MainPage : ContentPage
 
         await Hrat(gameContext);
     }
-    private async void HratKviz(string popisHry)
+    /*private async void HratKviz(string popisHry)
     {
         string popisPravidel =
                 "Jsi moderátor kvízu. " +
@@ -50,7 +50,7 @@ public partial class MainPage : ContentPage
           apiKey);
 
         await Hrat(gameContext);
-    }
+    }*/
 
     private async Task Hrat(GameContext gameContext)
     {
@@ -91,31 +91,31 @@ public partial class MainPage : ContentPage
 
     private void ButtonHra5_Clicked(object sender, EventArgs e)
     {
-        HratKviz("Svět z Harryho Pottera");
+        
     }
 
     private void ButtonHra6_Clicked(object sender, EventArgs e)
     {
-        HratKviz("Hlavní města");
+        
     }
 
     private void ButtonHra7_Clicked(object sender, EventArgs e)
     {
-        HratKviz("Správné zacházení s miminkem");
+        
     }
 
     private void ButtonHra8_Clicked(object sender, EventArgs e)
     {
-        HratKviz("Svět ze Stmívání");
+        
     }
 
     private void ButtonHra9_Clicked(object sender, EventArgs e)
     {
-        HratKviz("Bible");
+        
     }
 
     private void ButtonHra10_Clicked(object sender, EventArgs e)
     {
-        HratKviz("Různé");
+        
     }
 }

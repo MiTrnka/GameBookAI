@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -29,14 +29,16 @@
             x:Name="ChoicesGrid"
             Grid.Row="1"
             ColumnDefinitions="*,*"
-            RowDefinitions="Auto,Auto"
+            RowDefinitions="Auto,Auto,Auto"
             ColumnSpacing="15"
             RowSpacing="15">
 
-            <Button Text="A" Clicked="OnChoiceA"/>
-            <Button Text="B" Grid.Column="1" Clicked="OnChoiceB"/>
-            <Button Text="C" Grid.Row="1" Clicked="OnChoiceC"/>
+            <Button Text="A" Grid.Row="0" Grid.Column="0" Clicked="OnChoiceA"/>
+            <Button Text="B" Grid.Row="0" Grid.Column="1" Clicked="OnChoiceB"/>
+            <Button Text="C" Grid.Row="1" Grid.Column="0" Clicked="OnChoiceC"/>
             <Button Text="D" Grid.Row="1" Grid.Column="1" Clicked="OnChoiceD"/>
+            <Button Text="Uložit hru" Grid.Row="2" Grid.Column="0" Clicked="OnGameSave"/>
+            <Button Text="Nahrát hru" Grid.Row="2" Grid.Column="1" Clicked="OnGameLoad"/>
 
         </Grid>
 
