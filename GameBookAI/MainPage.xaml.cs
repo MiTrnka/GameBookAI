@@ -6,11 +6,10 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
     }
-
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // P O Z O R - N E P O S I L A T  N A  G I T H U B
-    private Uri endpoint = new Uri("https://gamebookchatgpt.openai.azure.com/");
-    private string deploymentName = "gpt-4.1-mini";
+    private Uri endpoint = new Uri("https://mitrn-mlyxvjfh-eastus2.cognitiveservices.azure.com/");
+    private string deploymentName = "gpt-5.2-chat";
     private string apiKey = "";
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

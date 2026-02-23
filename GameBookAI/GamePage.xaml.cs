@@ -59,6 +59,7 @@ public partial class GamePage : ContentPage
         if (SaveButton != null)
         {
             SaveButton.IsEnabled = !ulozena;
+            LoadButton.IsEnabled = !ulozena;
         }
     }
 

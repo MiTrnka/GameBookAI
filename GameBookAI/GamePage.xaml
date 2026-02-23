@@ -32,7 +32,7 @@
             <Button Text="C" Grid.Row="1" Grid.Column="0" Clicked="OnChoiceC"/>
             <Button Text="D" Grid.Row="1" Grid.Column="1" Clicked="OnChoiceD"/>
             <Button Text="Uložit hru" x:Name="SaveButton" Grid.Row="2" Grid.Column="0" Clicked="OnGameSave"/>
-            <Button Text="Nahrát hru" Grid.Row="2" Grid.Column="1" Clicked="OnGameLoad"/>
+            <Button Text="Nahrát hru" x:Name="LoadButton" Grid.Row="2" Grid.Column="1" Clicked="OnGameLoad"/>
 
         </Grid>
 
