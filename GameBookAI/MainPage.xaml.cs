@@ -7,9 +7,12 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
-    private Uri endpoint = new Uri("https://trnko-mk84yeeu-eastus2.cognitiveservices.azure.com/");
-    private string deploymentName = "gpt-5.2-chat";
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // P O Z O R - N E P O S I L A T  N A  G I T H U B
+    private Uri endpoint = new Uri("https://gamebookchatgpt.openai.azure.com/");
+    private string deploymentName = "gpt-4.1-mini";
     private string apiKey = "";
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     private async void HratPribeh(string popisHry)
     {
