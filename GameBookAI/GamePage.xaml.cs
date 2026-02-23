@@ -14,14 +14,22 @@ public partial class GamePage : ContentPage
     /// </summary>
     public GameContext GameContext
     {
-        set
-        {
-            _gameContext = value;
+        set => _gameContext = value;
+    }
 
-            // Vyhodnocení startu podle stavu načtení
+    /// <summary>
+    /// Zahajuje komunikaci s AI nebo načtení UI po úspěšném dokončení navigace na tuto stránku.
+    /// </summary>
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        if (!_isInitialized && _gameContext != null)
+        {
+            _isInitialized = true;
+
             if (_gameContext.IsLoadedGame)
             {
-                // Obnovení historie z předaných dat z úvodní obrazovky
                 _gameContext.RebuildMessages(_gameContext.SavedSummary, _gameContext.SavedLastMessage);
                 StartLoadedGame();
             }
@@ -36,6 +44,11 @@ public partial class GamePage : ContentPage
     /// Udržuje aktuální informaci, zda byla hra od posledního posunu uložena.
     /// </summary>
     private bool _hraJeUlozena;
+
+    /// <summary>
+    /// Zabraňuje vícenásobnému spuštění úvodní inicializace a komunikace s AI při navigaci na stránku.
+    /// </summary>
+    private bool _isInitialized;
 
     /// <summary>
     /// Změní vnitřní stav uložení a podle něj aktivuje nebo deaktivuje tlačítko uložení.
@@ -163,12 +176,6 @@ public partial class GamePage : ContentPage
             {
                 // Pokus o provedení akce
                 string storyText = await action();
-
-                // Úspěch - zobrazíme text
-                StoryLabel.Text = storyText;
-
-                // Odemkneme UI a vracíme úspěch
-                SetLoadingState(false);
 
                 // Úspěch - zobrazíme text
                 StoryLabel.Text = storyText;

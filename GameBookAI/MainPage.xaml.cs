@@ -78,9 +78,6 @@ public partial class MainPage : ContentPage
 
     private async Task Hrat(GameContext gameContext)
     {
-        // Registrace stránky do Shellu (dočasná)
-        Routing.RegisterRoute(nameof(GamePage), typeof(GamePage));
-
         // Otevření herní stránky
         await Shell.Current.GoToAsync(
             nameof(GamePage),
