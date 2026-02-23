@@ -109,14 +109,16 @@ public partial class MainPage : ContentPage
             "Musíš se rozhodovat moudře, protože každý tvůj krok ovlivní osud Eldorie.",4);
     }
 
+    private string uvodProAdrianuvPribeh = "Jmenuješ se Adriano Lo Scalzo, chodíš na střední technickou školu do 4. ročníku a za pár měsíců budeš maturovat.Bydlíš ve vesnici Dobříš kousek od Prahy.Už máš řidičák a máma (Monika Lo Scalzo) ti občas půjčí své auto, ale častěji jezdíš z Dobříče na Zličín autobusem a ze Zličína pak jedeš metrem B kam potřebuješ.Máma Monika pracuje jako učitelka v mateřské škole a s tvým tátou Fabiem, který je z Itálie z Palerma, ale již dlouho žije v Česku, se rozvedla již před mnoha lety.Fabio bydlí se svoji přítelkyní v Praze v bytě na sídlišti Barrandov.Na Barrandově, ale v jiné části, bydlí v bytě sama i jeho 75 letá babička Emilie Trnková.Je věřící evangelička a často lidi nutí do jídla a skáče jim do řeči, ale Adriana a další své příbuzné má ráda, ale často je lehce kritizuje a do něčeho tlačí, o čem si myslí, že je to správné. Také máš strejdu Michala Trnku (46 let), který bydlí momentálně v bytě v Karlových Varech se svoji ženou Markétou a jejich 4 měsíčním synem Tobiášem(Michal bude v pozdější části příběhu mocnější tajemná ale kladná postava). Michal pracuje jako programátor.Markéta před mateřskou dovolenou také. Ještě mají dům v malém městě Nejdek, který rekonstruují a plánují se tam brzo přestěhovat. Máš o 5 let staršího bratra jménem Richi Lo Scalzo.Ten momentálně bydlí na Slovensku v Bratislavě, protože má práci v Rakousku ve Vídni, která je od Bratislavy kousek.Pracuje tam na letišti v kanceláři pro jednu leteckou společnost ze země Tchaj-wan.V rodinném domku v Dobříči, kde bydlíš s mámou, tak tam s vámi ještě je malý pejsek jménem Leo, je to takové hyperaktivní vtipné trdlo.";
+
     private void ButtonHra5_Clicked(object sender, EventArgs e)
     {
-        
+        HratPribeh(uvodProAdrianuvPribeh+" Příběh začne jednoho březnového večera, kdy ti bratr Richi zatelefonuje, že má obrovskou, skoro až neuvěřitelnou informaci, která změní tvůj život úplně od základů. A že potřebuje, abys teď důkladně poslouchal. Následovat bude dobrodružný tajuplný příběh plný zvratů, který se bude odehrávat nejen v Česku, ale různě po světě.", 5);
     }
 
     private void ButtonHra6_Clicked(object sender, EventArgs e)
     {
-        
+        HratPribeh(uvodProAdrianuvPribeh + " Příběh začne jednoho letního dne, kdy ti přijde dopis do Bradavic, do speciální nadstavby Bradavické školy pro extrémně nadané studenty, kteří již vystudovali mudlovskou střední školu, ale bylo rozhodnuto, že by jim měl být otevřen svět čar a kouzel, protože teprve nyní se poznalo, jak velké mají nadání pro čáry a kouzla. U některých dětí se na to nepřijde dříve, ale až když dovrší plnoletost, nebo pár let po tom. V příběhu se Adriano potká se všemi důležitými postavami ze světa Harryho Pottera.", 6);
     }
 
     private void ButtonHra7_Clicked(object sender, EventArgs e)
