@@ -29,6 +29,8 @@ public class GameContext
     /// </summary>
     private readonly ChatClient _chatClient;
 
+    public int cisloPribehu;
+
     /// <summary>
     /// Vytvoří nový herní kontext a uloží systémová pravidla hry.
     /// </summary>
@@ -36,7 +38,8 @@ public class GameContext
         string systemPrompt,
         Uri endpoint,
         string deploymentName,
-        string apiKey)
+        string apiKey,
+        int cisloPribehu)
     {
         // Inicializace Azure OpenAI klienta
         var azureClient = new AzureOpenAIClient(
@@ -47,6 +50,8 @@ public class GameContext
 
         // SYSTEM prompt – pravidla hry
         _messages.Add(new SystemChatMessage(systemPrompt));
+
+        this.cisloPribehu = cisloPribehu;
     }
 
     /// <summary>
