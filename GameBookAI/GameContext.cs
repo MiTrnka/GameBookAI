@@ -56,6 +56,15 @@ public class GameContext
                 "Hráč odpovídá pouze textem „Vybírám možnost X“." +
                 "Popis příběhu: ";
 
+    /// <summary>
+    /// Uložený souhrn příběhu pro předání z úvodní obrazovky.
+    /// </summary>
+    public string? SavedSummary { get; set; }
+
+    /// <summary>
+    /// Uložená poslední zpráva (příběh + možnosti) pro obnovení UI bez volání AI.
+    /// </summary>
+    public string? SavedLastMessage { get; set; }
 
     /// <summary>
     /// Indikuje, zda je hra spuštěna z uložené pozice.
@@ -154,26 +163,19 @@ public class GameContext
     }
 
     /// <summary>
-    /// Přrenastaví historii zpráv pro načtenou hru
+    /// Sestaví znovu historii zpráv v paměti AI z původních pravidel, souhrnu a poslední zprávy.
     /// </summary>
-    public void RebuildMessages(string popisDosudOdehraneHry, string? posledniCastPribehu=null)
+    public void RebuildMessages(string popisDosudOdehraneHry, string? posledniCastPribehu = null)
     {
         _messages.Clear();
-        _messages.Add(PopisPravidel);
-        _messages.Add(PopisUvoduPribehuHry);
-        _messages.Add(new SystemChatMessage(popisDosudOdehraneHry));
-        if ( posledniCastPribehu != null)
+        _messages.Add(new SystemChatMessage(PopisPravidel));
+        _messages.Add(new SystemChatMessage(PopisUvoduPribehuHry));
+        _messages.Add(new UserChatMessage($"Zde je souhrn dosavadního děje. Navázej na něj:\n{popisDosudOdehraneHry}"));
+
+        // Vložení poslední zprávy jako odpovědi asistenta, aby AI správně navázala na zobrazené volby (A, B, C, D)
+        if (posledniCastPribehu != null)
         {
             _messages.Add(new AssistantChatMessage(posledniCastPribehu));
         }
-    }
-
-    /// <summary>
-    /// Spustí komunikaci s AI po načtení hry ze zálohy.
-    /// </summary>
-    public async Task<string> ContinueLoadedGameAsync()
-    {
-        _messages.Add(new UserChatMessage("Pokračuj v příběhu od posledního uloženého bodu a rovnou nabídni další možnosti."));
-        return await CallAiAsync();
     }
 }

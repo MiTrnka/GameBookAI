@@ -16,9 +16,10 @@ public partial class MainPage : ContentPage
 
     private async void HratPribeh(string popisHry, int cisloPribehu)
     {
-        string finalniPopis = popisHry;
         string saveKey = $"Story_{cisloPribehu}";
         bool isLoaded = false;
+        string savedSummary = string.Empty;
+        string savedLastMessage = string.Empty;
 
         // Kontrola, zda hráč tuto hru už někdy uložil
         if (Preferences.ContainsKey(saveKey))
@@ -32,25 +33,29 @@ public partial class MainPage : ContentPage
 
             if (continueGame)
             {
-                // Záměna základního popisu za uložená data ze souhrnu
-                finalniPopis = Preferences.Get(saveKey, finalniPopis);
+                // Načtení souhrnu i přesného posledního textu s možnostmi
+                savedSummary = Preferences.Get(saveKey, string.Empty);
+                savedLastMessage = Preferences.Get($"{saveKey}_LastMsg", string.Empty);
                 isLoaded = true;
             }
         }
 
         var gameContext = new GameContext(
-            finalniPopis,
+            popisHry,
             endpoint,
             deploymentName,
             apiKey,
             cisloPribehu)
         {
-            // Předání informace kontextu, aby spustil načítací sekvenci místo úvodní
-            IsLoadedGame = isLoaded
+            // Předání dat do kontextu, aby mohl po přesměrování obnovit stav
+            IsLoadedGame = isLoaded,
+            SavedSummary = savedSummary,
+            SavedLastMessage = savedLastMessage
         };
 
         await Hrat(gameContext);
     }
+
     /*private async void HratKviz(string popisHry)
     {
         string popisPravidel =

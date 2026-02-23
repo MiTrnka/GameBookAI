@@ -5,12 +5,6 @@
     x:Class="GameBookAI.GamePage"
     Title="Hra">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem
-            Text="Zpět"
-            Clicked="OnBackClicked" />
-    </ContentPage.ToolbarItems>
-
     <Grid
         Padding="20"
         RowDefinitions="*,Auto"
@@ -37,7 +31,7 @@
             <Button Text="B" Grid.Row="0" Grid.Column="1" Clicked="OnChoiceB"/>
             <Button Text="C" Grid.Row="1" Grid.Column="0" Clicked="OnChoiceC"/>
             <Button Text="D" Grid.Row="1" Grid.Column="1" Clicked="OnChoiceD"/>
-            <Button Text="Uložit hru" Grid.Row="2" Grid.Column="0" Clicked="OnGameSave"/>
+            <Button Text="Uložit hru" x:Name="SaveButton" Grid.Row="2" Grid.Column="0" Clicked="OnGameSave"/>
             <Button Text="Nahrát hru" Grid.Row="2" Grid.Column="1" Clicked="OnGameLoad"/>
 
         </Grid>
