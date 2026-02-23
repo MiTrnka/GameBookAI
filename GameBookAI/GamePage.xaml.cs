@@ -17,10 +17,34 @@ public partial class GamePage : ContentPage
         set
         {
             _gameContext = value;
-            // Spuštění hry
-            StartGame();
+
+            // Vyhodnocení startu podle stavu načtení
+            if (_gameContext.IsLoadedGame)
+            {
+                StartLoadedGame();
+            }
+            else
+            {
+                StartGame();
+            }
         }
     }
+    /// <summary>
+    /// Spustí hru, která byla předána jako načtená pozice.
+    /// </summary>
+    private async void StartLoadedGame()
+    {
+        bool success = await ExecuteWithRetryAsync(async () =>
+        {
+            return await _gameContext.ContinueLoadedGameAsync();
+        });
+
+        if (!success)
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+    }
+
 
     private GameContext _gameContext;
 
@@ -127,13 +151,60 @@ public partial class GamePage : ContentPage
     private async void OnChoiceC(object sender, EventArgs e) => await Continue('C');
     private async void OnChoiceD(object sender, EventArgs e) => await Continue('D');
 
-    private void OnGameSave(object sender, EventArgs e)
+    private async void OnGameSave(object sender, EventArgs e)
     {
-        
+        // Zobrazení načítání během generování souhrnu
+        SetLoadingState(true);
+        try
+        {
+            string saveKey = $"Story_{_gameContext.cisloPribehu}";
+
+            // Vytvoření souhrnu přes AI
+            string souhrnPribehu = await _gameContext.GenerateSummaryAsync();
+
+            // Složení promptu pravidel a souhrnu
+            souhrnPribehu += $"Dosavadní děj:\n{souhrnPribehu}";
+
+            // Zápis do lokálního úložiště aplikace
+            Preferences.Set(saveKey, souhrnPribehu);
+
+            await DisplayAlertAsync("Uloženo", "Hra byla úspěšně uložena.", "OK");
+
+            string? posledniZprava = _gameContext.GetLastMessage();
+
+            _gameContext.RebuildMessages(souhrnPribehu, posledniZprava);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Chyba", $"Nepodařilo se uložit hru:\n{ex.Message}", "OK");
+        }
+        finally
+        {
+            SetLoadingState(false);
+        }
     }
 
-    private void OnGameLoad(object sender, EventArgs e)
+    private async void OnGameLoad(object sender, EventArgs e)
     {
-        
+        string saveKey = $"Story_{_gameContext.cisloPribehu}";
+
+        // Ověření existence klíče
+        if (!Preferences.ContainsKey(saveKey))
+        {
+            await DisplayAlertAsync("Chyba", "Pro tento příběh neexistuje žádná uložená pozice.", "OK");
+            return;
+        }
+
+        // Extrakce uložení z paměti telefonu
+        string souhrnPribehu = Preferences.Get(saveKey, string.Empty);
+
+        // Aplikace stavu do herní třídy
+        _gameContext.RebuildMessages(souhrnPribehu);
+
+        // Získání dalšího odstavce příběhu a možností
+        await ExecuteWithRetryAsync(async () =>
+        {
+            return await _gameContext.ContinueLoadedGameAsync();
+        });
     }
 }

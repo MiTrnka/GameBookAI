@@ -25,17 +25,53 @@ public class GameContext
     private readonly List<ChatMessage> _messages = new();
 
     /// <summary>
+    /// Získá textový obsah poslední zprávy z historie konverzace.
+    /// </summary>
+    public string? GetLastMessage()
+    {
+        // Vrátí text první části poslední zprávy, pokud kolekce není prázdná
+        return _messages is { Count: > 0 }
+            ? _messages[^1].Content[0].Text
+            : null;
+    }
+
+    /// <summary>
     /// Klient pro komunikaci s Azure OpenAI.
     /// </summary>
     private readonly ChatClient _chatClient;
 
+    /// <summary>
+    /// Popis úvodu do příběhu hry
+    /// </summary>
+    private string PopisUvoduPribehuHry { get; set; }
+
+    /// <summary>
+    /// Popis pravidel hry pro AI
+    /// </summary>
+    private string PopisPravidel { get; init; } =
+                "Jsi vypravěč interaktivního fantasy příběhu. " +
+                "Vyprávěj příběh po částech. " +
+                "Na konci každé části vždy vypiš přesně 4 možnosti A), B), C), D). " +
+                "Neuváděj žádný jiný text mimo příběh a možnosti. " +
+                "Hráč odpovídá pouze textem „Vybírám možnost X“." +
+                "Popis příběhu: ";
+
+
+    /// <summary>
+    /// Indikuje, zda je hra spuštěna z uložené pozice.
+    /// </summary>
+    public bool IsLoadedGame { get; set; }
+
+    /// <summary>
+    /// Číslo příběhu definované v MainPage, které se předává do GameContextu, aby věděl, jaké pravidla a úvodní popis použít.
+    /// </summary>
     public int cisloPribehu;
 
     /// <summary>
     /// Vytvoří nový herní kontext a uloží systémová pravidla hry.
     /// </summary>
     public GameContext(
-        string systemPrompt,
+        string popisUvoduPribehuHry,
         Uri endpoint,
         string deploymentName,
         string apiKey,
@@ -48,8 +84,14 @@ public class GameContext
 
         _chatClient = azureClient.GetChatClient(deploymentName);
 
+        // Uložení textu pravidel
+        this.PopisUvoduPribehuHry = popisUvoduPribehuHry;
+
         // SYSTEM prompt – pravidla hry
-        _messages.Add(new SystemChatMessage(systemPrompt));
+        _messages.Add(new SystemChatMessage(PopisPravidel));
+
+        // SYSTEM prompt – úvodní popis příběhu
+        _messages.Add(new SystemChatMessage(PopisUvoduPribehuHry));
 
         this.cisloPribehu = cisloPribehu;
     }
@@ -93,5 +135,45 @@ public class GameContext
         _messages.Add(new AssistantChatMessage(aiText));
 
         return aiText;
+    }
+
+    /// <summary>
+    /// Získá od AI shrnutí dosavadního postupu hrou.
+    /// </summary>
+    public async Task<string> GenerateSummaryAsync()
+    {
+        // Zkopírování historie zpráv bez nultého indexu obsahujícího systémová pravidla
+        var summaryMessages = _messages.GetRange(1, _messages.Count - 1);
+
+        // Vložení speciálního příkazu pro sumarizaci
+        summaryMessages.Add(new UserChatMessage("Vytvoř detailní souhrn dosavadního odehraného příběhu. Zaměř se na důležitá rozhodnutí, získané předměty a aktuální situaci, aby bylo možné na tento stav později navázat."));
+
+        // Dotaz na AI
+        var response = await _chatClient.CompleteChatAsync(summaryMessages);
+        return response.Value.Content[0].Text;
+    }
+
+    /// <summary>
+    /// Přrenastaví historii zpráv pro načtenou hru
+    /// </summary>
+    public void RebuildMessages(string popisDosudOdehraneHry, string? posledniCastPribehu=null)
+    {
+        _messages.Clear();
+        _messages.Add(PopisPravidel);
+        _messages.Add(PopisUvoduPribehuHry);
+        _messages.Add(new SystemChatMessage(popisDosudOdehraneHry));
+        if ( posledniCastPribehu != null)
+        {
+            _messages.Add(new AssistantChatMessage(posledniCastPribehu));
+        }
+    }
+
+    /// <summary>
+    /// Spustí komunikaci s AI po načtení hry ze zálohy.
+    /// </summary>
+    public async Task<string> ContinueLoadedGameAsync()
+    {
+        _messages.Add(new UserChatMessage("Pokračuj v příběhu od posledního uloženého bodu a rovnou nabídni další možnosti."));
+        return await CallAiAsync();
     }
 }

@@ -16,20 +16,38 @@ public partial class MainPage : ContentPage
 
     private async void HratPribeh(string popisHry, int cisloPribehu)
     {
-        string popisPravidel =
-                "Jsi vypravěč interaktivního fantasy příběhu. " +
-                "Vyprávěj příběh po částech. " +
-                "Na konci každé části vždy vypiš přesně 4 možnosti A), B), C), D). " +
-                "Neuváděj žádný jiný text mimo příběh a možnosti. " +
-                "Hráč odpovídá pouze textem „Vybírám možnost X“." +
-                "Popis příběhu: ";
+        string finalniPopis = popisHry;
+        string saveKey = $"Story_{cisloPribehu}";
+        bool isLoaded = false;
+
+        // Kontrola, zda hráč tuto hru už někdy uložil
+        if (Preferences.ContainsKey(saveKey))
+        {
+            // Dotaz na nahrání poslední pozice
+            bool continueGame = await DisplayAlertAsync(
+                "Uložená hra",
+                "Pro tento příběh existuje uložená pozice. Chcete v ní pokračovat?",
+                "Pokračovat",
+                "Nová hra");
+
+            if (continueGame)
+            {
+                // Záměna základního popisu za uložená data ze souhrnu
+                finalniPopis = Preferences.Get(saveKey, finalniPopis);
+                isLoaded = true;
+            }
+        }
 
         var gameContext = new GameContext(
-         popisPravidel + popisHry,
-         endpoint,
-         deploymentName,
-         apiKey,
-         cisloPribehu);
+            finalniPopis,
+            endpoint,
+            deploymentName,
+            apiKey,
+            cisloPribehu)
+        {
+            // Předání informace kontextu, aby spustil načítací sekvenci místo úvodní
+            IsLoadedGame = isLoaded
+        };
 
         await Hrat(gameContext);
     }
